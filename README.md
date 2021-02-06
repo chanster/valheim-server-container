@@ -2,7 +2,10 @@
 
 A Containerized Dedicated game server for Valheim
 
+**Note** these scripts are only for Linux. It was tested on `Ubuntu 20.04`.
+
 ## Requirements
+- A copy of Valheim
 - podman or kuberentes
 - buildah
 
