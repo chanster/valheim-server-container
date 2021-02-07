@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 
 # exit on error
@@ -26,7 +25,14 @@ function run_server() {
     export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
     export SteamAppId=892970
 
-    ./valheim_server.x86_64 -name ${VALHEIM_SERVER_NAME} -port 2456 -world ${VALHEIM_SERVER_WORLD} -password ${VALHEIM_SERVER_PASSWORD} -public 1
+    ./valheim_server.x86_64 \
+        -nographics \
+        -batchmode \
+        -name ${VALHEIM_SERVER_NAME} \
+        -port 2456 \
+        -world ${VALHEIM_SERVER_WORLD} \
+        -password ${VALHEIM_SERVER_PASSWORD} \
+        -public 1
 }
 
 function finish() {
