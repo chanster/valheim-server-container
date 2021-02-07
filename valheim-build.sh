@@ -24,7 +24,7 @@ cp -r "${__valheim_server}" "${__baseMount}/"
 buildah run "${__base}" /bin/bash -c "mv /Valheim\ dedicated\ server /valheim"
 cp "${__dir}/entrypoint.sh" "${__baseMount}/entrypoint.sh"
 
-
+buildah run "${__base}" /bin/bash -c "useradd -s /bin/bash -d /valheim valheim && chown -R valheim:valheim /valheim"
 
 # Set ENV defaults
 buildah config --env VALHEIM_SERVER_NAME="Valheim-Container" "${__base}"
@@ -36,5 +36,7 @@ buildah config --port 32456/udp "${__base}"
 buildah config --workingdir "/valheim" "${__base}"
 # copy entrypoint
 buildah config --entrypoint "/entrypoint.sh" "${__base}"
+# set user
+buildah config --user "valheim" "${__base}"
 
 buildah commit "${__base}" valheim:latest
