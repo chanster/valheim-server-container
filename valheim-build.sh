@@ -23,9 +23,9 @@ cp "${__dir}/entrypoint.sh" "${__baseMount}/entrypoint.sh"
 
 # Set ENV defaults
 buildah config --env VALHEIM_SERVER_NAME="Valheim-Container" "${__base}"
-buildah config --env VALHEIM_SERVER_PORT="2456" "${__base}"
 buildah config --env VALHEIM_SERVER_WORLD="Valheim-Test" "${__base}"
 buildah config --env VALHEIM_SERVER_PASSWORD="valheim" "${__base}"
+buildah config --port 2456/udp "${__base}"
 
 # set working dir
 buildah config --workingdir "/valheim" "${__base}"
