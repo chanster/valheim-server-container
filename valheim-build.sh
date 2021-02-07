@@ -30,7 +30,12 @@ buildah run "${__base}" /bin/bash -c "useradd -s /bin/bash -d /valheim valheim &
 buildah config --env VALHEIM_SERVER_NAME="Valheim-Container" "${__base}"
 buildah config --env VALHEIM_SERVER_WORLD="Valheim-Test" "${__base}"
 buildah config --env VALHEIM_SERVER_PASSWORD="valheim" "${__base}"
-buildah config --port 32456/udp "${__base}"
+buildah config --port 2456/tcp "${__base}"
+buildah config --port 2457/tcp "${__base}"
+buildah config --port 2458/tcp "${__base}"
+buildah config --port 2456/udp "${__base}"
+buildah config --port 2457/udp "${__base}"
+buildah config --port 2458/udp "${__base}"
 
 # set working dir
 buildah config --workingdir "/valheim" "${__base}"
