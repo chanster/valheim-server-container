@@ -28,16 +28,20 @@ podman run localhost/valheim:latest
 | Variable | Description | Default |
 | ---: | :--- | :---: |
 | `VALHEIM_SERVER_NAME` | Valheim server name | `Valheim-Container` |
-| `VALHEIM_SERVER_PORT` | Port to bind to | `2456` |
 | `VALHEIM_SERVER_WORLD` | World to run. Will create if world doesn't exists | `Valheim-Test` |
 | `VALHEIM_SERVER_PASSWORD` | Server password | `valheim` |
 
 Example
 ```bash
 podman run \
-    --env VALHEIM_SERVER_NAME="my.server.com" \
-    --env VALHEIM_SERVER_PORT=32567
-    --env VALHEIM_SERVER_WORLD="valheimville"
-    --env VALHEIM_SERVER_PASSWORD="my secret password"
+    --env VALHEIM_SERVER_NAME=my.server.com \
+    --env VALHEIM_SERVER_WORLD=valheimville \
+    --env VALHEIM_SERVER_PASSWORD="my_secret_password \
+    --port 2456:2456/tcp \
+    --port 2457:2457/tcp \
+    --port 2458:2458/tcp \
+    --port 2456:2456/udp \
+    --port 2457:2457/udp \
+    --port 2458:2458/udp \
     localhost/valheim:latest
 ```
