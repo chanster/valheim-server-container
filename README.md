@@ -5,16 +5,18 @@ A Containerized Dedicated game server for Valheim
 **Note** these scripts are only for Linux. It was tested on `Ubuntu 20.04`.
 
 ## Requirements
-- A copy of Valheim
-- podman or kuberentes
-- buildah
+- podman or docker
 
 ## Building Container
 
-Build the container using username spaces.
-
+Docker
 ```
-buildah unshare ./valheim-build.sh
+docker build -t valheim:latest .
+```
+
+Podman
+```
+podman build -t valheim:latest .
 ```
 
 ## Running Container
@@ -27,9 +29,37 @@ podman run localhost/valheim:latest
 
 | Variable | Description | Default |
 | ---: | :--- | :---: |
-| `VALHEIM_SERVER_NAME` | Valheim server name | `Valheim-Container` |
-| `VALHEIM_SERVER_WORLD` | World to run. Will create if world doesn't exists | `Valheim-Test` |
+| `VALHEIM_SERVER_NAME` | Valheim server name. This dispalys on the Valhiem Server List. | `Valheim-Container` |
+| `VALHEIM_SERVER_WORLD` | World to run. Will create if world doesn't exists. See World files below. | `Valheim-Test` |
 | `VALHEIM_SERVER_PASSWORD` | Server password | `valheim` |
+
+### Volumes and Files
+
+Valheim keeps its data in `${HOME}/.config/unity3d/IronGate/Valheim/`. The container runs as user `valheim` with the home mapped to `/valheim`.
+
+| File | Location | description |
+| ---: | :--- | :--- |
+| World | `/valheim/.config/unity3d/IronGate/Valheim/worlds/` | `${VALHEIM_SERVER_WORLD}.db` and `${VALHEIM_SERVER_WORLD}.fwl` |
+| Admin List | `/valheim//.config/unity3d/IronGate/Valheim/adminlist.txt` | List admin players ID ONE per line |
+| Banned List | `/valheim//.config/unity3d/IronGate/Valheim/adminlist.txt` | List banned players ID ONE per line |
+| Permitted List | `/valheim//.config/unity3d/IronGate/Valheim/permittedlist.txt` | List permitted players ID ONE per line |
+| Preferences | `/valheim//.config/unity3d/IronGate/Valheim/prefs` | `XML` file. Unsure of use yet |
+
+Setup persistant data backend if you would like to keep your world between container re-creations.
+
+Your mapped file structure should have simliar structure as the following
+```
+./valheim
+|-- adminlist.txt
+|-- bannedlist.txt
+|-- permittedlist.txt
+|-- prefs
+`-- worlds
+    |-- '${VALHEIM_SERVER_WORLD}.db'
+    |-- '${VALHEIM_SERVER_WORLD}.db.old'
+    |-- '${VALHEIM_SERVER_WORLD}.fwl'
+    `-- '${VALHEIM_SERVER_WORLD}.fwl.old'
+```
 
 Example
 ```bash
@@ -37,11 +67,8 @@ podman run \
     --env VALHEIM_SERVER_NAME=my.server.com \
     --env VALHEIM_SERVER_WORLD=valheimville \
     --env VALHEIM_SERVER_PASSWORD="my_secret_password \
-    --port 2456:2456/tcp \
-    --port 2457:2457/tcp \
-    --port 2458:2458/tcp \
-    --port 2456:2456/udp \
-    --port 2457:2457/udp \
-    --port 2458:2458/udp \
+    --port 2456-2458:2456-2458/tcp \
+    --port 2456-2468:2456-2458/udp \
+    --volume $(pwd)/valhiem:/valheim/.config/unity3d/IronGate/Valheim
     localhost/valheim:latest
 ```
