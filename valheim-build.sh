@@ -19,6 +19,7 @@ __base=$(buildah from docker.io/ubuntu:20.04)
 buildah config --env "DEBIAN_FRONTEND=noninteractive" "${__base}"
 buildah run "${__base}" /bin/bash -c "dpkg --add-architecture i386 && apt-get update && apt-get install -y --no-install-recommends libsdl2-2.0-0:i386 ca-certificates"
 
+# copy files in
 __baseMount="$(buildah mount ${__base})"
 cp -r "${__valheim_server}" "${__baseMount}/"
 buildah run "${__base}" /bin/bash -c "mv /Valheim\ dedicated\ server /valheim"
@@ -30,6 +31,7 @@ buildah run "${__base}" /bin/bash -c "useradd -s /bin/bash -d /valheim valheim &
 buildah config --env VALHEIM_SERVER_NAME="Valheim-Container" "${__base}"
 buildah config --env VALHEIM_SERVER_WORLD="Valheim-Test" "${__base}"
 buildah config --env VALHEIM_SERVER_PASSWORD="valheim" "${__base}"
+# Expose ports
 buildah config --port 2456/tcp "${__base}"
 buildah config --port 2457/tcp "${__base}"
 buildah config --port 2458/tcp "${__base}"
