@@ -26,7 +26,7 @@ function run_server() {
     export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
     export SteamAppId=892970
 
-    ./valheim_server.x86_64 -name "${VALHEIM_SERVER_NAME}" -port 2567 -world "${VALHEIM_SERVER_WORLD}" -password "${VALHEIM_SERVER_PASSWORD}" -public 0
+    ./valheim_server.x86_64 -name "${VALHEIM_SERVER_NAME}" -port 32456 -world "${VALHEIM_SERVER_WORLD}" -password "${VALHEIM_SERVER_PASSWORD}" -public 0
 }
 
 function finish() {
