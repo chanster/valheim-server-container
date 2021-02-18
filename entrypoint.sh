@@ -32,7 +32,7 @@ function run_server() {
         -port 2456 \
         -world ${VALHEIM_SERVER_WORLD} \
         -password ${VALHEIM_SERVER_PASSWORD} \
-        -public 1
+        -public ${VALHEIM_SERVER_PUBLIC}
 }
 
 function finish() {

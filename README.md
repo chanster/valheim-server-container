@@ -21,8 +21,17 @@ podman build -t valheim:latest .
 
 ## Running Container
 
-```
-podman run localhost/valheim:latest
+```bash
+mkdir valheim && chmod 777 valheim
+
+podman run \
+    --env VALHEIM_SERVER_NAME=my.server.com \
+    --env VALHEIM_SERVER_WORLD=valheimville \
+    --env VALHEIM_SERVER_PASSWORD=my_secret_password \
+    --port 2456-2458:2456-2458/tcp \
+    --port 2456-2468:2456-2458/udp \
+    --volume $(pwd)/valhiem:/valheim/.config/unity3d/IronGate/Valheim
+    localhost/valheim:latest
 ```
 
 ### Environmental Variables
@@ -32,6 +41,7 @@ podman run localhost/valheim:latest
 | `VALHEIM_SERVER_NAME` | Valheim server name. This dispalys on the Valhiem Server List. | `Valheim-Container` |
 | `VALHEIM_SERVER_WORLD` | World to run. Will create if world doesn't exists. See World files below. | `Valheim-Test` |
 | `VALHEIM_SERVER_PASSWORD` | Server password | `valheim` |
+| `VALHEIM_SERVER_PUBLIC` | Be shown in server list. `1` means yes, `0` means no. | `1` |
 
 ### Volumes and Files
 
@@ -61,14 +71,3 @@ Your mapped file structure should have simliar structure as the following
     `-- '${VALHEIM_SERVER_WORLD}.fwl.old'
 ```
 
-Example
-```bash
-podman run \
-    --env VALHEIM_SERVER_NAME=my.server.com \
-    --env VALHEIM_SERVER_WORLD=valheimville \
-    --env VALHEIM_SERVER_PASSWORD="my_secret_password \
-    --port 2456-2458:2456-2458/tcp \
-    --port 2456-2468:2456-2458/udp \
-    --volume $(pwd)/valhiem:/valheim/.config/unity3d/IronGate/Valheim
-    localhost/valheim:latest
-```
