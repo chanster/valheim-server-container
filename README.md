@@ -30,7 +30,7 @@ podman run \
     --env VALHEIM_SERVER_PASSWORD=my_secret_password \
     --port 2456-2458:2456-2458/tcp \
     --port 2456-2468:2456-2458/udp \
-    --volume $(pwd)/valhiem:/valheim/.config/unity3d/IronGate/Valheim
+    --volume $(pwd)/valhiem:/valheim/.config/unity3d/IronGate/Valheim \
     localhost/valheim:latest
 ```
 
